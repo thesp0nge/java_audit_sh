@@ -26,6 +26,12 @@ VERSION="0.7"
 TARGET_DIR="`pwd`"
 OLD_PS1=$PS1
 
+# Search where there are reads from HTTP requests. Useful to spot sinks in web
+# applications.
+function read_from_http {
+    grep -r -w "request.getParameter" * | cut -f1 -d ":" | sort | uniq
+}
+
 function set_target_dir {
 
     if ! [[ -z "${AUDIT_TARGET_DIR}"  ]]; then
@@ -124,6 +130,7 @@ function imported_packages_top_10 {
         done
     fi
     if [ -z "$CUSTOM_NAMESPACES" ]; then
+    echo $TARGET_DIR
         grep -rw "^import" --include \*.java $TARGET_DIR | awk -F/ '{ print $NF  }'| cut -f 2 -d ":" | sort | uniq -c | sort -nr | head -$COUNT
     else
         grep -rw "^import" --include \*.java $TARGET_DIR | awk -F/ '{ print $NF  }'| cut -f 2 -d ":" | sort | uniq -c | sort -nr | grep $CUSTOM_NAMESPACES | head -$COUNT
