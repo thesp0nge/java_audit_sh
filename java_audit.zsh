@@ -124,9 +124,9 @@ function imported_packages_top_10 {
         done
     fi
     if [ -z "$CUSTOM_NAMESPACES" ]; then
-        grep -rw "^import" --include \*.java $TARGET_DIR | cut -f 2 -d ":" | sort | uniq -c | sort -nr | head -$COUNT
+        grep -rw "^import" --include \*.java $TARGET_DIR | awk -F/ '{ print $NF  }'| cut -f 2 -d ":" | sort | uniq -c | sort -nr | head -$COUNT
     else
-        grep -rw "^import" --include \*.java $TARGET_DIR | cut -f 2 -d ":" | sort | uniq -c | sort -nr | grep $CUSTOM_NAMESPACES | head -$COUNT
+        grep -rw "^import" --include \*.java $TARGET_DIR | awk -F/ '{ print $NF  }'| cut -f 2 -d ":" | sort | uniq -c | sort -nr | grep $CUSTOM_NAMESPACES | head -$COUNT
 
     fi
 }
