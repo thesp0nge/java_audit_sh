@@ -243,12 +243,21 @@ function count_comments {
     echo $(($MULTILINE + $SINGLELINE))
 }
 
-function where_is_class_used {
+function where_is_method_used {
     if [ $# -ne 1  ]; then
-        echo "usage: whereused classname"
+        echo "usage: where_is_method_used method"
         return -1
     fi
-    LIST=`grep -w -r $1 $TARGET_DIR | grep import | cut -f 1 -d ":"`
+    echo $1
+    grep -w -r $1 $TARGET_DIR | awk -F/ '{ print $NF   }' |  cut -f 1 -d ":" | sort | uniq
+
+}
+function where_is_class_used {
+    if [ $# -ne 1  ]; then
+        echo "usage: where_is_class_used classname"
+        return -1
+    fi
+    LIST=`grep -w -r $1 $TARGET_DIR | awk -F/ '{ print $NF   }'| grep import | cut -f 1 -d ":"`
     for i in $LIST
     do
         echo `basename $i`
