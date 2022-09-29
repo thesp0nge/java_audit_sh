@@ -243,12 +243,12 @@ function count_comments {
     echo $(($MULTILINE + $SINGLELINE))
 }
 
-function whereused {
+function where_is_class_used {
     if [ $# -ne 1  ]; then
         echo "usage: whereused classname"
         return -1
     fi
-    LIST=`grep -w -r $1 * | grep import | cut -f 1 -d ":"`
+    LIST=`grep -w -r $1 $TARGET_DIR | grep import | cut -f 1 -d ":"`
     for i in $LIST
     do
         echo `basename $i`
