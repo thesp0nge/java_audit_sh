@@ -248,7 +248,6 @@ function where_is_method_used {
         echo "usage: where_is_method_used method"
         return -1
     fi
-    echo $1
     grep -w -r $1 $TARGET_DIR | awk -F/ '{ print $NF   }' |  cut -f 1 -d ":" | sort | uniq
 
 }
