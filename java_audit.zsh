@@ -143,8 +143,13 @@ function seo {
         return 0
     fi
 
-    MYNAME=`echo "$1" | tr "." "/"`
-    OUT=`find . -iwholename "*$MYNAME.java"`
+    if [[ "$1" == *java ]]
+    then
+        OUT=`find . -iwholename "*$1"`
+    else
+        MYNAME=$(echo "$1" | tr "." "/")
+        OUT=`find . -iwholename "*$MYNAME.java"`
+    fi
     echo $OUT
 }
 
