@@ -32,6 +32,14 @@ function read_from_http {
     grep -r -w "request.getParameter" * | cut -f1 -d ":" | sort | uniq
 }
 
+# A way to estimate how much work carries a certain directory
+function dir_stat {
+    ND=$(find . -type 'd' | wc -l)
+    NF=$(find . -iname "*.java" | wc -l)
+
+    echo "There are $ND directories and $NF java files"
+}
+
 function set_target_dir {
 
     if ! [[ -z "${AUDIT_TARGET_DIR}"  ]]; then
